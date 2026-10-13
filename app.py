@@ -55,7 +55,9 @@ def flip_for_arabic(language):
 
 
 def language_picker(language):
-    with st.sidebar:
+    # at the top of the page instead of the sidebar, so it is easy to find on a phone
+    _, picker_column = st.columns([3, 1])
+    with picker_column:
         st.selectbox(
             t(language, "sidebar_language"),
             options=list(LANGUAGES),
