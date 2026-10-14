@@ -197,7 +197,7 @@ footer a { color: var(--brand-strong); }
         <h2 data-i18n="contact_title"></h2>
         <p class="lead" data-i18n="contact_text"></p>
         <div class="actions" id="contactButtons"></div>
-        <p class="small" id="emailLine"></p>
+        
       </div>
     </div>
   </section>
@@ -215,9 +215,9 @@ footer a { color: var(--brand-strong); }
 // whatsapp: digits only, with the country code, e.g. 213555123456
 // telegram: the username without the @
 const CONTACT = {
-  email: "professormpofu8@gmail.com",
-  whatsapp: "",
-  telegram: ""
+  emailUser: "professormpofu8", emailHost: "gmail.com",
+  whatsapp: "213551757401",
+  telegram: "Shasha23prof"
 };
 
 // ---- the same scoring rules as scoring.py ----
@@ -407,7 +407,7 @@ function buildContactButtons() {
   const box = $("contactButtons");
   box.innerHTML = "";
   const links = [];
-  if (CONTACT.email) links.push(["mailto:" + CONTACT.email + "?subject=Mizan", "c_email"]);
+  if (CONTACT.emailUser) links.push(["mailto:" + CONTACT.emailUser + "@" + CONTACT.emailHost + "?subject=Mizan", "c_email"]);
   if (CONTACT.whatsapp) links.push(["https://wa.me/" + CONTACT.whatsapp, "c_whatsapp"]);
   if (CONTACT.telegram) links.push(["https://t.me/" + CONTACT.telegram, "c_telegram"]);
   links.forEach(function (item, index) {
@@ -418,7 +418,7 @@ function buildContactButtons() {
     a.dataset.i18n = item[1];
     box.appendChild(a);
   });
-  $("emailLine").textContent = CONTACT.email;
+  
 }
 
 function setLang(code) {
