@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mizan | Credit scores for shops that run on cash</title>
+<meta name="description" content="Mizan scores Algerian shops from cash flow, restocking, bill payments and time open. No audited accounts needed.">
+<meta property="og:title" content="Mizan | Credit scores for shops that run on cash">
+<meta property="og:description" content="Mizan scores Algerian shops from cash flow, restocking, bill payments and time open. No audited accounts needed.">
+<meta property="og:image" content="https://mizan.kampus-link.com/logo.png">
+<meta property="og:url" content="https://mizan.kampus-link.com/">
+<meta name="theme-color" content="#3e7bfa">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<style>
+:root {
+  --bg: #f7f8fb; --card: #ffffff; --text: #12161c; --muted: #5a6573; --line: #e1e5ec;
+  --brand: #3e7bfa; --brand-strong: #2f66e0; --brand-soft: #e8f0ff;
+  --a: #1b7f4c; --a-soft: #e7f5ec; --b: #b7791f; --b-soft: #fdf3dc; --c: #c0392b; --c-soft: #fbe9e7;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117; --card: #161c25; --text: #e8edf3; --muted: #9aa6b4; --line: #273140;
+    --brand-strong: #4a82f5; --brand-soft: #16233f;
+    --a: #4cc38a; --a-soft: #12301f; --b: #e3a94b; --b-soft: #33270f; --c: #ef7b6e; --c-soft: #3a1a16;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--text); line-height: 1.6;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Naskh Arabic", "Noto Sans Arabic", Arial, sans-serif;
+}
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 1.25rem; }
+header.top { border-bottom: 1px solid var(--line); background: var(--card); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.75rem; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 0.7rem; font-weight: 700; font-size: 1.25rem; }
+.brand img { width: 40px; height: 40px; border-radius: 10px; display: block; }
+.langs { display: flex; gap: 0.4rem; }
+.langs button {
+  border: 1px solid var(--line); background: transparent; color: var(--text);
+  padding: 0.35rem 0.8rem; border-radius: 999px; cursor: pointer; font: inherit; font-size: 0.9rem;
+}
+.langs button[aria-pressed="true"] { background: var(--brand-strong); border-color: var(--brand-strong); color: #fff; }
+section { padding: 3rem 0; }
+.hero { padding: 4rem 0 3rem; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; margin: 0 0 1rem; max-width: 18ch; }
+.hero p { font-size: 1.15rem; color: var(--muted); max-width: 60ch; margin: 0 0 1.75rem; }
+.actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.btn {
+  display: inline-block; padding: 0.75rem 1.3rem; border-radius: 10px; text-decoration: none;
+  font-weight: 600; border: 1px solid var(--brand-strong); background: var(--brand-strong); color: #fff;
+}
+.btn.ghost { background: transparent; color: var(--brand-strong); }
+.btn:hover { filter: brightness(1.08); }
+h2 { font-size: 1.7rem; margin: 0 0 0.75rem; }
+.lead { color: var(--muted); max-width: 65ch; margin: 0 0 1.75rem; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem; }
+.stat .num { font-size: 2rem; font-weight: 800; color: var(--brand-strong); line-height: 1.1; }
+.stat .what { margin: 0.4rem 0; }
+.stat .src { font-size: 0.8rem; color: var(--muted); }
+.note { font-size: 0.85rem; color: var(--muted); margin-top: 1rem; }
+.calc { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+@media (max-width: 760px) { .calc { grid-template-columns: 1fr; } }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1.25rem; }
+.inputs label { display: block; margin-bottom: 1rem; font-size: 0.95rem; }
+.inputs label > span { display: block; margin-bottom: 0.3rem; color: var(--muted); }
+.inputs input[type="number"] {
+  width: 100%; padding: 0.6rem 0.7rem; border-radius: 8px; border: 1px solid var(--line);
+  background: var(--bg); color: var(--text); font: inherit; direction: ltr; text-align: start;
+}
+.inputs input[type="range"] { width: 100%; accent-color: var(--brand-strong); }
+.inputs label.check { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0; }
+.inputs label.check span { margin: 0; }
+.out { --tc: var(--b); --tcs: var(--b-soft); }
+.out[data-tier="A"] { --tc: var(--a); --tcs: var(--a-soft); }
+.out[data-tier="B"] { --tc: var(--b); --tcs: var(--b-soft); }
+.out[data-tier="C"] { --tc: var(--c); --tcs: var(--c-soft); }
+.out .label { color: var(--muted); font-size: 0.9rem; }
+.out .score { font-size: 3.4rem; font-weight: 800; line-height: 1.1; color: var(--tc); }
+.out .verdict {
+  margin: 0.8rem 0; padding: 0.8rem 1rem; background: var(--tcs); color: var(--text);
+  border-inline-start: 6px solid var(--tc); border-radius: 8px;
+}
+.out .verdict b { color: var(--tc); display: block; font-size: 1.15rem; }
+.bar { height: 10px; background: var(--line); border-radius: 999px; overflow: hidden; margin: 0.5rem 0 1rem; }
+.bar i { display: block; height: 100%; background: var(--tc); width: 50%; transition: width 0.25s; }
+.out ul { margin: 0.5rem 0 1rem; padding-inline-start: 1.2rem; color: var(--muted); font-size: 0.9rem; }
+.factors { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.factors .panel h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+.factors .panel p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+.tiers { display: grid; gap: 0.6rem; }
+.tiers div { padding: 0.7rem 1rem; border-radius: 8px; border-inline-start: 6px solid; }
+.tiers .ta { background: var(--a-soft); border-color: var(--a); }
+.tiers .tb { background: var(--b-soft); border-color: var(--b); }
+.tiers .tc { background: var(--c-soft); border-color: var(--c); }
+.contact-box { background: var(--brand-soft); border-radius: 16px; padding: 2rem; }
+.small { color: var(--muted); font-size: 0.95rem; margin: 0.9rem 0 0; direction: ltr; text-align: start; }
+footer { border-top: 1px solid var(--line); padding: 1.5rem 0; color: var(--muted); font-size: 0.9rem; }
+footer a { color: var(--brand-strong); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><img src="logo.png" alt="Mizan logo" width="40" height="40"><span>Mizan</span></div>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="fr">FR</button>
+      <button type="button" data-lang="ar">عربي</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1 data-i18n="hero_title"></h1>
+      <p data-i18n="hero_sub"></p>
+      <div class="actions">
+        <a class="btn" id="tryBtn" href="https://mizan233.streamlit.app/" target="_blank" rel="noopener" data-i18n="cta_try"></a>
+        <a class="btn ghost" href="#how" data-i18n="cta_how"></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="problem">
+    <div class="wrap">
+      <h2 data-i18n="problem_title"></h2>
+      <p class="lead" data-i18n="problem_text"></p>
+      <div class="stats">
+        <div class="stat"><div class="num" data-i18n="s1v"></div><p class="what" data-i18n="s1"></p><div class="src">World Bank, Global Findex 2024</div></div>
+        <div class="stat"><div class="num">1.3M</div><p class="what" data-i18n="s2"></p><div class="src">Ministry of Industry, mid-2022</div></div>
+        <div class="stat"><div class="num">~40%</div><p class="what" data-i18n="s3"></p><div class="src">ILO Algiers office, 2021</div></div>
+        <div class="stat"><div class="num">297</div><p class="what" data-i18n="s4"></p><div class="src">FGAR, 2025</div></div>
+        <div class="stat"><div class="num" data-i18n="s5v"></div><p class="what" data-i18n="s5"></p><div class="src">SNMG, January 2026</div></div>
+      </div>
+      <p class="note" data-i18n="stats_note"></p>
+    </div>
+  </section>
+
+  <section id="try">
+    <div class="wrap">
+      <h2 data-i18n="calc_title"></h2>
+      <p class="lead" data-i18n="calc_sub"></p>
+      <div class="calc">
+        <div class="panel inputs">
+          <label><span data-i18n="f_cash"></span><input id="cash" type="number" min="0" step="10000" value="300000"></label>
+          <label><span data-i18n="f_orders"></span><input id="orders" type="number" min="0" max="60" value="4"></label>
+          <label><span data-i18n="f_months"></span><input id="months" type="number" min="0" max="600" value="18"></label>
+          <label><span><span data-i18n="f_bills"></span>: <b id="billsVal">85</b>%</span><input id="bills" type="range" min="0" max="100" value="85"></label>
+          <label class="check"><input id="nobills" type="checkbox"><span data-i18n="f_nobills"></span></label>
+        </div>
+        <div class="panel out" id="out" data-tier="B" aria-live="polite">
+          <div class="label" data-i18n="r_score"></div>
+          <div class="score" id="score">0</div>
+          <div class="bar"><i id="barFill"></i></div>
+          <div class="verdict"><b id="tierLabel"></b><span id="tierDesc"></span></div>
+          <div id="offer"></div>
+          <ul id="flags"></ul>
+          <a class="btn" href="https://mizan233.streamlit.app/" target="_blank" rel="noopener" data-i18n="calc_cta"></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <h2 data-i18n="how_title"></h2>
+      <div class="factors">
+        <div class="panel"><h3 data-i18n="fac_cash"></h3><p data-i18n="fac_cash_d"></p></div>
+        <div class="panel"><h3 data-i18n="fac_bills"></h3><p data-i18n="fac_bills_d"></p></div>
+        <div class="panel"><h3 data-i18n="fac_restock"></h3><p data-i18n="fac_restock_d"></p></div>
+        <div class="panel"><h3 data-i18n="fac_tenure"></h3><p data-i18n="fac_tenure_d"></p></div>
+      </div>
+      <div class="tiers">
+        <div class="ta" data-i18n="t_A"></div>
+        <div class="tb" data-i18n="t_B"></div>
+        <div class="tc" data-i18n="t_C"></div>
+      </div>
+      <p class="note" data-i18n="how_note"></p>
+    </div>
+  </section>
+
+  <section id="team">
+    <div class="wrap">
+      <h2 data-i18n="team_title"></h2>
+      <p class="lead" data-i18n="team_text"></p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-box">
+        <h2 data-i18n="contact_title"></h2>
+        <p class="lead" data-i18n="contact_text"></p>
+        <div class="actions" id="contactButtons"></div>
+        <p class="small" id="emailLine"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span data-i18n="footer"></span> &middot;
+    <a href="https://github.com/Broeshasha/Mizan" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+// Contact details. Leave whatsapp or telegram empty to hide that button.
+// whatsapp: digits only, with the country code, e.g. 213555123456
+// telegram: the username without the @
+const CONTACT = {
+  email: "professormpofu8@gmail.com",
+  whatsapp: "",
+  telegram: ""
+};
+
+// ---- the same scoring rules as scoring.py ----
+const SNMG = 24000;
+const CASH_START = 2 * SNMG;
+const CASH_FULL = 25 * SNMG;
+const OFFERS = { A: [3, 12, 3000000], B: [1.5, 6, 1000000], C: [0.5, 3, 100000] };
+
+const clamp = v => Math.max(0, Math.min(100, v));
+const cashScore = x => x <= CASH_START ? 0 : clamp(Math.log(x / CASH_START) / Math.log(CASH_FULL / CASH_START) * 100);
+const billsScore = p => p === null ? 50 : Math.pow(p / 100, 2) * 100;
+const restockScore = n => clamp(Math.sqrt(n / 8) * 100);
+const tenureScore = m => clamp(Math.sqrt(m / 60) * 100);
+
+function assess(cash, orders, bills, months) {
+  const blended = 0.3 * cashScore(cash) + 0.3 * billsScore(bills) + 0.2 * restockScore(orders) + 0.2 * tenureScore(months);
+  let score = Math.round(300 + blended * 5.5);
+  if (months < 6) score = Math.min(score, 699);
+  const tier = score >= 700 ? "A" : score >= 580 ? "B" : "C";
+  const rule = OFFERS[tier];
+  const amount = Math.round(Math.min(cash * rule[0], rule[2]) / 1000) * 1000;
+  return { score: score, tier: tier, amount: amount, term: rule[1] };
+}
+
+// ---- text in three languages ----
+const T = {
+  en: {
+    title: "Mizan | Credit scores for shops that run on cash",
+    hero_title: "Credit scores for shops that run on cash",
+    hero_sub: "Mizan scores an Algerian shop from what it already has: cash flow, restocking, bills paid on time and time open. No audited accounts needed.",
+    cta_try: "Try the scoring tool", cta_how: "How it works",
+    problem_title: "The problem",
+    problem_text: "Most small shops in Algeria have no bank history, no collateral and no audited accounts. Banks have nothing to score them on, so good businesses get turned away.",
+    s1v: "35%", s1: "of adults hold a financial account",
+    s2: "registered SMEs, about 98% with under 10 employees",
+    s3: "of non-farm jobs are informal (rough estimate)",
+    s4: "SMEs backed by the FGAR guarantee fund in 2025",
+    s5v: "24,000 DA", s5: "minimum wage per month since January 2026, the anchor for our scale",
+    stats_note: "These are the latest figures we found in the sources named. They are approximate and some are a few years old.",
+    calc_title: "Try a quick estimate",
+    calc_sub: "Change the answers and watch the score move. The full tool adds the factor breakdown, warnings and the loan product.",
+    f_cash: "Monthly cash flow (DA)", f_orders: "Supplier orders per month", f_months: "Months open",
+    f_bills: "Bills paid on time, last 12 months", f_nobills: "No bill history",
+    r_score: "Credit score", r_tier: "Tier {t}",
+    d_A: "Recommended for financing", d_B: "Approve with conditions", d_C: "Not ready for a standard loan",
+    r_offer: "Suggested: up to {amount} over {months} months",
+    fl_short: "Open under 6 months: can't reach Tier A.",
+    fl_nobills: "No bill history: a middle score is used for this factor.",
+    fl_late: "Bills are often paid late.",
+    fl_rare: "The shop rarely restocks.",
+    calc_cta: "Open the full tool",
+    how_title: "How the score works",
+    fac_cash: "Cash flow · 30%", fac_cash_d: "Measured against the minimum wage, on a log scale.",
+    fac_bills: "Utility bills · 30%", fac_bills_d: "Share of bills paid on time. Each missed bill hurts more than the last.",
+    fac_restock: "Restocking · 20%", fac_restock_d: "Supplier orders per month. Regular restocking means stock is selling.",
+    fac_tenure: "Time open · 20%", fac_tenure_d: "Months in business. A shop under 6 months can't reach Tier A.",
+    t_A: "Tier A: 700 and above. Low risk.", t_B: "Tier B: 580 to 699. Moderate risk.", t_C: "Tier C: below 580. High risk.",
+    how_note: "Plain rules, not a trained model. Every weight is in the open and can be changed once real repayment data exists.",
+    team_title: "Who we are",
+    team_text: "Shasha is a small team in Algeria building Mizan. This is an early prototype: it has not yet been tested with a bank or on real repayment data. That is the next step, and we are looking for a partner to take it with.",
+    contact_title: "Let's talk",
+    contact_text: "Bank, microfinance institution, incubator or shop owner: write to us.",
+    c_email: "Send an email", c_whatsapp: "WhatsApp", c_telegram: "Telegram",
+    footer: "Mizan by Shasha. Prototype."
+  },
+  fr: {
+    title: "Mizan | Un score de crédit pour les commerces qui travaillent en espèces",
+    hero_title: "Un score de crédit pour les commerces qui travaillent en espèces",
+    hero_sub: "Mizan note un commerce algérien à partir de ce qu'il a déjà : flux de trésorerie, réapprovisionnement, factures payées à temps et ancienneté. Aucun bilan audité n'est nécessaire.",
+    cta_try: "Essayer l'outil de scoring", cta_how: "Comment ça marche",
+    problem_title: "Le problème",
+    problem_text: "La plupart des petits commerces en Algérie n'ont ni historique bancaire, ni garantie, ni bilan audité. Les banques n'ont rien pour les noter, et de bons commerces sont refusés.",
+    s1v: "35 %", s1: "des adultes ont un compte financier",
+    s2: "PME enregistrées, dont environ 98 % ont moins de 10 salariés",
+    s3: "des emplois non agricoles sont informels (estimation approximative)",
+    s4: "PME soutenues par le fonds de garantie FGAR en 2025",
+    s5v: "24 000 DA", s5: "de salaire minimum par mois depuis janvier 2026, point de repère de notre échelle",
+    stats_note: "Ce sont les chiffres les plus récents trouvés dans les sources citées. Ils sont approximatifs et certains datent de quelques années.",
+    calc_title: "Faites une estimation rapide",
+    calc_sub: "Modifiez les réponses et regardez le score bouger. L'outil complet ajoute le détail des critères, les alertes et le produit de prêt.",
+    f_cash: "Flux de trésorerie mensuel (DA)", f_orders: "Commandes aux fournisseurs par mois", f_months: "Ancienneté (mois)",
+    f_bills: "Factures payées à temps, 12 derniers mois", f_nobills: "Pas d'historique de factures",
+    r_score: "Score de crédit", r_tier: "Catégorie {t}",
+    d_A: "Financement recommandé", d_B: "Accord sous conditions", d_C: "Pas prêt pour un prêt classique",
+    r_offer: "Proposition : jusqu'à {amount} sur {months} mois",
+    fl_short: "Ouvert depuis moins de 6 mois : ne peut pas atteindre la catégorie A.",
+    fl_nobills: "Pas d'historique de factures : note moyenne pour ce critère.",
+    fl_late: "Les factures sont souvent payées en retard.",
+    fl_rare: "Le commerce se réapprovisionne rarement.",
+    calc_cta: "Ouvrir l'outil complet",
+    how_title: "Comment le score fonctionne",
+    fac_cash: "Flux de trésorerie · 30 %", fac_cash_d: "Comparé au salaire minimum, sur une échelle logarithmique.",
+    fac_bills: "Factures · 30 %", fac_bills_d: "Part des factures payées à temps. Chaque retard pèse plus que le précédent.",
+    fac_restock: "Réapprovisionnement · 20 %", fac_restock_d: "Commandes aux fournisseurs par mois. Un réapprovisionnement régulier signifie que le stock se vend.",
+    fac_tenure: "Ancienneté · 20 %", fac_tenure_d: "Mois d'activité. Un commerce de moins de 6 mois ne peut pas atteindre la catégorie A.",
+    t_A: "Catégorie A : 700 et plus. Risque faible.", t_B: "Catégorie B : de 580 à 699. Risque modéré.", t_C: "Catégorie C : moins de 580. Risque élevé.",
+    how_note: "Des règles simples, pas un modèle entraîné. Chaque pondération est visible et pourra être ajustée dès que de vraies données de remboursement existeront.",
+    team_title: "Qui sommes-nous",
+    team_text: "Shasha est une petite équipe en Algérie qui construit Mizan. C'est un prototype : il n'a pas encore été testé avec une banque ni sur de vraies données de remboursement. C'est l'étape suivante, et nous cherchons un partenaire pour la franchir.",
+    contact_title: "Parlons-en",
+    contact_text: "Banque, institution de microfinance, incubateur ou commerçant : écrivez-nous.",
+    c_email: "Envoyer un e-mail", c_whatsapp: "WhatsApp", c_telegram: "Telegram",
+    footer: "Mizan par Shasha. Prototype."
+  },
+  ar: {
+    title: "Mizan | تقييم ائتماني للمحلات التي تعمل بالنقد",
+    hero_title: "تقييم ائتماني للمحلات التي تعمل بالنقد",
+    hero_sub: "تقيّم ميزان المحل الجزائري من معطيات يملكها أصلًا: التدفق النقدي، والتزوّد بالبضائع، وسداد الفواتير في وقتها، ومدة العمل. دون الحاجة إلى حسابات مدققة.",
+    cta_try: "جرّب أداة التقييم", cta_how: "كيف يعمل",
+    problem_title: "المشكلة",
+    problem_text: "أغلب المحلات الصغيرة في الجزائر ليس لها سجل بنكي ولا ضمانات ولا حسابات مدققة. لا تجد البنوك ما تعتمد عليه لتقييمها، فتُرفض مشاريع جيدة.",
+    s1v: "35%", s1: "من البالغين لديهم حساب مالي",
+    s2: "مؤسسة صغيرة ومتوسطة مسجلة، نحو 98% منها توظّف أقل من 10 عمال",
+    s3: "من الوظائف غير الزراعية غير رسمية (تقدير تقريبي)",
+    s4: "مؤسسة دعمها صندوق الضمان FGAR في 2025",
+    s5v: "24,000 دج", s5: "الأجر الأدنى الشهري منذ جانفي 2026، وهو مرجع مقياسنا",
+    stats_note: "هذه أحدث الأرقام التي وجدناها في المصادر المذكورة. وهي تقريبية وبعضها يعود إلى بضع سنوات.",
+    calc_title: "جرّب تقديرًا سريعًا",
+    calc_sub: "غيّر الإجابات وراقب تغيّر التقييم. الأداة الكاملة تضيف تفاصيل العوامل والتنبيهات ومنتج القرض.",
+    f_cash: "التدفق النقدي الشهري (دج)", f_orders: "طلبات التزوّد من الموردين شهريًا", f_months: "مدة العمل (بالأشهر)",
+    f_bills: "الفواتير المسددة في وقتها خلال آخر 12 شهرًا", f_nobills: "لا يوجد سجل للفواتير",
+    r_score: "التقييم الائتماني", r_tier: "الفئة {t}",
+    d_A: "يُوصى بمنح التمويل", d_B: "موافقة بشروط", d_C: "غير جاهز لقرض عادي",
+    r_offer: "المقترح: حتى {amount}، المدة {months} (بالأشهر)",
+    fl_short: "مضى على الفتح أقل من 6 أشهر: لا يمكن بلوغ الفئة A.",
+    fl_nobills: "لا يوجد سجل فواتير: يُعتمد تقييم متوسط لهذا العامل.",
+    fl_late: "كثيرًا ما تُسدَّد الفواتير بعد موعدها.",
+    fl_rare: "نادرًا ما يتزوّد المحل بالبضائع.",
+    calc_cta: "افتح الأداة الكاملة",
+    how_title: "كيف يعمل التقييم",
+    fac_cash: "التدفق النقدي · 30%", fac_cash_d: "يُقارَن بالأجر الأدنى على مقياس لوغاريتمي.",
+    fac_bills: "فواتير الخدمات · 30%", fac_bills_d: "نسبة الفواتير المسددة في وقتها. كل تأخير يزن أكثر من سابقه.",
+    fac_restock: "التزوّد بالبضائع · 20%", fac_restock_d: "عدد طلبات الموردين شهريًا. التزوّد المنتظم يعني أن السلعة تُباع.",
+    fac_tenure: "مدة العمل · 20%", fac_tenure_d: "عدد أشهر النشاط. المحل الذي مضى على فتحه أقل من 6 أشهر لا يبلغ الفئة A.",
+    t_A: "الفئة A: من 700 فما فوق. مخاطر منخفضة.", t_B: "الفئة B: من 580 إلى 699. مخاطر متوسطة.", t_C: "الفئة C: أقل من 580. مخاطر مرتفعة.",
+    how_note: "قواعد بسيطة وليست نموذجًا مدرَّبًا. كل وزن معلن ويمكن تعديله عند توفر بيانات سداد حقيقية.",
+    team_title: "من نحن",
+    team_text: "Shasha فريق صغير في الجزائر يبني ميزان. هذا نموذج أولي لم يُختبر بعد مع بنك ولا على بيانات سداد حقيقية، وهذه هي الخطوة التالية التي نبحث عن شريك لتحقيقها.",
+    contact_title: "تواصل معنا",
+    contact_text: "بنك، مؤسسة تمويل أصغر، حاضنة أعمال أو تاجر: راسلنا.",
+    c_email: "أرسل بريدًا إلكترونيًا", c_whatsapp: "واتساب", c_telegram: "تيليغرام",
+    footer: "ميزان من Shasha. نموذج أولي."
+  }
+};
+
+let lang = "en";
+const $ = id => document.getElementById(id);
+
+function money(n) {
+  const text = n.toLocaleString(lang === "fr" ? "fr-FR" : "en-US");
+  return text + (lang === "ar" ? " دج" : " DA");
+}
+
+function update() {
+  const cash = Math.max(0, parseFloat($("cash").value) || 0);
+  const orders = Math.max(0, parseFloat($("orders").value) || 0);
+  const months = Math.max(0, parseFloat($("months").value) || 0);
+  const noBills = $("nobills").checked;
+  const billsPct = Number($("bills").value);
+  $("bills").disabled = noBills;
+  $("billsVal").textContent = billsPct;
+
+  const r = assess(cash, orders, noBills ? null : billsPct, months);
+  const text = T[lang];
+
+  $("out").dataset.tier = r.tier;
+  $("score").textContent = r.score;
+  $("barFill").style.width = ((r.score - 300) / 550 * 100) + "%";
+  $("tierLabel").textContent = text.r_tier.replace("{t}", r.tier);
+  $("tierDesc").textContent = text["d_" + r.tier];
+  $("offer").textContent = text.r_offer.replace("{amount}", money(r.amount)).replace("{months}", r.term);
+
+  const notes = [];
+  if (months < 6) notes.push(text.fl_short);
+  if (noBills) notes.push(text.fl_nobills);
+  else if (billsPct < 70) notes.push(text.fl_late);
+  if (orders <= 1) notes.push(text.fl_rare);
+  $("flags").innerHTML = "";
+  notes.forEach(function (note) {
+    const li = document.createElement("li");
+    li.textContent = note;
+    $("flags").appendChild(li);
+  });
+}
+
+function buildContactButtons() {
+  const box = $("contactButtons");
+  box.innerHTML = "";
+  const links = [];
+  if (CONTACT.email) links.push(["mailto:" + CONTACT.email + "?subject=Mizan", "c_email"]);
+  if (CONTACT.whatsapp) links.push(["https://wa.me/" + CONTACT.whatsapp, "c_whatsapp"]);
+  if (CONTACT.telegram) links.push(["https://t.me/" + CONTACT.telegram, "c_telegram"]);
+  links.forEach(function (item, index) {
+    const a = document.createElement("a");
+    a.className = index === 0 ? "btn" : "btn ghost";
+    a.href = item[0];
+    if (item[0].indexOf("http") === 0) { a.target = "_blank"; a.rel = "noopener"; }
+    a.dataset.i18n = item[1];
+    box.appendChild(a);
+  });
+  $("emailLine").textContent = CONTACT.email;
+}
+
+function setLang(code) {
+  lang = T[code] ? code : "en";
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.title = T[lang].title;
+  document.querySelectorAll("[data-i18n]").forEach(function (el) {
+    el.textContent = T[lang][el.dataset.i18n];
+  });
+  document.querySelectorAll(".langs button").forEach(function (b) {
+    b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false");
+  });
+  update();
+}
+
+function firstLanguage() {
+  const fromUrl = new URLSearchParams(location.search).get("lang");
+  if (fromUrl && T[fromUrl]) return fromUrl;
+  const browser = (navigator.language || "en").slice(0, 2).toLowerCase();
+  return T[browser] ? browser : "en";
+}
+
+document.querySelectorAll(".langs button").forEach(function (b) {
+  b.addEventListener("click", function () { setLang(b.dataset.lang); });
+});
+["cash", "orders", "months", "bills", "nobills"].forEach(function (id) {
+  $(id).addEventListener("input", update);
+});
+
+buildContactButtons();
+setLang(firstLanguage());
+</script>
+</body>
+</html>
